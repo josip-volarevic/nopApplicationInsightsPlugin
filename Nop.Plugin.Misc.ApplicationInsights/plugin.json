@@ -1,0 +1,11 @@
+﻿{
+  "Group": "Misc",
+  "FriendlyName": "Azure Application Insights",
+  "SystemName": "Misc.ApplicationInsights",
+  "Version": "0.1",
+  "SupportedVersions": [ "4.20" ],
+  "Author": "NET Media Sistemi d.o.o.",
+  "DisplayOrder": 1,
+  "FileName": "Nop.Plugin.Misc.ApplicationInsights.dll",
+  "Description": "This plugin integrates Azure Application Insights into your nopCommerce shop."
+}
