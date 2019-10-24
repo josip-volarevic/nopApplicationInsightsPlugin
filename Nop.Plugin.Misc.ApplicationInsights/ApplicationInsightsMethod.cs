@@ -62,7 +62,7 @@ namespace Nop.Plugin.Misc.ApplicationInsights
             //locales
             _localizationService.AddOrUpdatePluginLocaleResource("Plugins.Misc.ApplicationInsights.InstrumentationKey", "Instrumentation Key");
             _localizationService.AddOrUpdatePluginLocaleResource("Plugins.Misc.ApplicationInsights.InstrumentationKey.Hint", "Enter your Application Insights resources instrumentation key");
-            _localizationService.AddOrUpdatePluginLocaleResource("Plugins.Misc.ApplicationInsights.Instructions", "<h3>Configuration:</h3><br/><p><ol><li>Sign in to the Microsoft Azure Portal</li><li>Create a new Application Insights resource</li><li>Navigate to your newly created resource: myResource -> overview</li><li>Copy the instrumentation key and paste it to the form input below</li></ol></p>");
+            _localizationService.AddOrUpdatePluginLocaleResource("Plugins.Misc.ApplicationInsights.Instructions", "<h3>Configuration:</h3><br/><p><ol><li>Sign in to the Microsoft Azure Portal</li><li>Create a new Application Insights resource</li><li>Navigate to your newly created resource: myResource -> overview</li><li>Copy the instrumentation key and paste it below</li><li><b>Restart the application in order to apply the new key!</b></li></ol></p><br />");
 
             base.Install();
         }

@@ -20,7 +20,6 @@ namespace Nop.Plugin.Misc.ApplicationInsights.Controllers
         private readonly ILocalizationService _localizationService;
         private readonly INotificationService _notificationService;
         private readonly ISettingService _settingService;
-        private readonly IWebHelper _webHelper;
 
         #endregion
 
@@ -28,20 +27,17 @@ namespace Nop.Plugin.Misc.ApplicationInsights.Controllers
 
         public MiscApplicationInsightsController(ISettingService settingService,
             INotificationService notificationService,
-            ILocalizationService localizationService,
-            IWebHelper webHelper) 
+            ILocalizationService localizationService) 
         {
             this._settingService = settingService;
             this._notificationService = notificationService;
             this._localizationService = localizationService;
-            this._webHelper = webHelper;
         }
 
         #endregion
 
         #region Methods
 
-        //TODO: Optimizirati i pametnije napraviti Configure( ) i Configure(ConfigurationModel model) metode
         [AuthorizeAdmin] //confirms access to the admin panel
         [Area(AreaNames.Admin)] //specifies the area containing a controller or action
         public IActionResult Configure()
@@ -74,10 +70,9 @@ namespace Nop.Plugin.Misc.ApplicationInsights.Controllers
             System.IO.File.WriteAllText($"{GetConfigDirectory()}\\appsettings.json", appSettings);
 
             // Now clear settings cache
-            //_settingService.ClearCache()
+            _settingService.ClearCache();
 
             _notificationService.SuccessNotification(_localizationService.GetResource("Admin.Plugins.Saved"));
-            //TODO: restart the application to apply the changes
 
             return Configure();
         }
