@@ -1,4 +1,4 @@
-# Welcome to nopApplicationInsights :wave:
+# Welcome to nopApplicationInsightsPlugin :wave:
 ![Version](https://img.shields.io/badge/version-0.1-blue.svg?cacheSeconds=2592000) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/Volki312/ApplicationInsightsPlugin#license)
 
 > Plugin that integrates Azure Application Insights server-side telemetry into your nopCommerce 4.20 web shop.
@@ -14,7 +14,7 @@
 2. Restart your application (or click **Reload list of plugins** button).
 3. Scroll down through the list of plugins to find the Azure Application Insights plugin.
 4. Click on the **Install** link to install the plugin.
-5. The plugin is displayed in the Plugins windows (**Configuration › Local Plugins**).
+5. The plugin is displayed in the Plugins windows (**Configuration â€º Local Plugins**).
 
 <br />
 
