@@ -8,9 +8,27 @@ namespace Nop.Plugin.Misc.ApplicationInsights
     public class ApplicationInsightsSettings : ISettings
     {
         /// <summary>
-        /// Gets or sets instrumentation key
+        /// Gets or sets InstrumentationKey
         /// </summary>
         public string InstrumentationKey { get; set; }
 
+        /// <summary>
+        /// Gets or sets EnableQuickPulseMetricStream
+        /// </summary>
+        public bool EnableQuickPulseMetricStream { get; set; }
+
+        /// <summary>
+        /// Gets or sets EnableAdaptiveSampling
+        /// </summary>
+        public bool EnableAdaptiveSampling { get; set; }
+
+        /// <summary>
+        /// Gets or sets EnableHeartbeat
+        /// </summary>
+        public bool EnableHeartbeat { get; set; }
+        /// <summary>
+        /// Gets or sets AddAutoCollectedMetricExtractor
+        /// </summary>
+        public bool AddAutoCollectedMetricExtractor { get; set; }
     }
 }

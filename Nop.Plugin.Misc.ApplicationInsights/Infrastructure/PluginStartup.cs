@@ -1,8 +1,9 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Nop.Plugin.Misc.ApplicationInsights.Helpers;
 using Nop.Core.Infrastructure;
-using System.IO;
+using System;
 
 namespace Nop.Plugin.Misc.ApplicationInsights.Infrastructure
 {
@@ -18,17 +19,29 @@ namespace Nop.Plugin.Misc.ApplicationInsights.Infrastructure
         /// <param name="configuration">Configuration of the application</param>
         public void ConfigureServices(IServiceCollection services, IConfiguration configuration)
         {
-            // Extract the instrumentation key value from appsettings.json
-            var config = new ConfigurationBuilder()
-              .SetBasePath(GetConfigDirectory())
-              .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
-              .Build();
-            var instrumentationKey = config["ApplicationInsights:InstrumentationKey"];
+            var aiOptions = new Microsoft.ApplicationInsights.AspNetCore.Extensions.ApplicationInsightsServiceOptions();
+
+            var config = ConfigHelper.GetConfig();
+
+            string instrumentationKey = config["ApplicationInsights:InstrumentationKey"];
+            bool enableQuickPulseMetricStream = Convert.ToBoolean(config["ApplicationInsights:Settings:EnableQuickPulseMetricStream"]);
+            bool enableAdaptiveSampling = Convert.ToBoolean(config["ApplicationInsights:Settings:EnableAdaptiveSampling"]);
+            bool enableHeartbeat = Convert.ToBoolean(config["ApplicationInsights:Settings:EnableHeartbeat"]);
+            bool addAutoCollectedMetricExtractor = Convert.ToBoolean(config["ApplicationInsights:Settings:AddAutoCollectedMetricExtractor"]);
 
             if (!string.IsNullOrEmpty(instrumentationKey))
             {
                 services.AddApplicationInsightsTelemetry(instrumentationKey);
             }
+
+            //Disables/enables Application Insights features
+            aiOptions.EnableQuickPulseMetricStream = enableQuickPulseMetricStream;
+            aiOptions.EnableAdaptiveSampling = enableAdaptiveSampling;
+            aiOptions.EnableHeartbeat = enableHeartbeat;
+            aiOptions.AddAutoCollectedMetricExtractor = addAutoCollectedMetricExtractor;
+
+            // Set options
+            services.AddApplicationInsightsTelemetry(aiOptions);
         }
 
         /// <summary>
@@ -44,11 +57,5 @@ namespace Nop.Plugin.Misc.ApplicationInsights.Infrastructure
         /// </summary>
         public int Order => 11;
 
-        private string GetConfigDirectory()
-        {
-            string assemblyPath = System.Reflection.Assembly.GetAssembly(typeof(PluginStartup)).Location;
-            string pluginPath = Path.Combine(assemblyPath, @"..\..\Misc.ApplicationInsights");
-            return Path.GetFullPath(pluginPath);
-        }
     }
 }

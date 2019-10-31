@@ -1,15 +1,13 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Nop.Core;
 using Nop.Services.Configuration;
 using Nop.Services.Localization;
 using Nop.Web.Framework;
 using Nop.Web.Framework.Controllers;
 using Nop.Web.Framework.Mvc.Filters;
 using Nop.Plugin.Misc.ApplicationInsights.Models;
-using Microsoft.Extensions.Configuration;
-using System.IO;
-using Nop.Plugin.Misc.ApplicationInsights.Infrastructure;
+using Nop.Plugin.Misc.ApplicationInsights.Helpers;
 using Nop.Services.Messages;
+using System;
 
 namespace Nop.Plugin.Misc.ApplicationInsights.Controllers
 {
@@ -27,7 +25,7 @@ namespace Nop.Plugin.Misc.ApplicationInsights.Controllers
 
         public MiscApplicationInsightsController(ISettingService settingService,
             INotificationService notificationService,
-            ILocalizationService localizationService) 
+            ILocalizationService localizationService)
         {
             this._settingService = settingService;
             this._notificationService = notificationService;
@@ -42,16 +40,21 @@ namespace Nop.Plugin.Misc.ApplicationInsights.Controllers
         [Area(AreaNames.Admin)] //specifies the area containing a controller or action
         public IActionResult Configure()
         {
-            // Extract the instrumentation key value from appsettings.json
-            var config = new ConfigurationBuilder()
-                .SetBasePath(GetConfigDirectory())
-                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
-                .Build();
-            var instrumentationKey = config["ApplicationInsights:InstrumentationKey"];
+            var config = ConfigHelper.GetConfig();
+
+            string instrumentationKey = config["ApplicationInsights:InstrumentationKey"];
+            bool enableQuickPulseMetricStream = Convert.ToBoolean(config["ApplicationInsights:Settings:EnableQuickPulseMetricStream"]);
+            bool enableAdaptiveSampling = Convert.ToBoolean(config["ApplicationInsights:Settings:EnableAdaptiveSampling"]);
+            bool enableHeartbeat = Convert.ToBoolean(config["ApplicationInsights:Settings:EnableHeartbeat"]);
+            bool addAutoCollectedMetricExtractor = Convert.ToBoolean(config["ApplicationInsights:Settings:AddAutoCollectedMetricExtractor"]);
 
             var model = new ConfigurationModel
             {
-                InstrumentationKey = instrumentationKey
+                InstrumentationKey = instrumentationKey,
+                EnableQuickPulseMetricStream = enableQuickPulseMetricStream,
+                EnableAdaptiveSampling = enableAdaptiveSampling,
+                EnableHeartbeat = enableHeartbeat,
+                AddAutoCollectedMetricExtractor = addAutoCollectedMetricExtractor
             };
 
             return View("~/Plugins/Misc.ApplicationInsights/Views/Configure.cshtml", model);
@@ -63,26 +66,21 @@ namespace Nop.Plugin.Misc.ApplicationInsights.Controllers
         [Area(AreaNames.Admin)]
         public IActionResult Configure(ConfigurationModel model)
         {
-            // String that represents the new JSON with an updated instrumentation key value from the model
-            string appSettings = $"{{\n\t\"ApplicationInsights\": {{\n\t\t\"InstrumentationKey\": \"{model.InstrumentationKey}\"\n\t}}\n}}";
+            // String that represents the new JSON with updated Application Insights values from the model
+            string appSettings = $"{{\r\n\t\"ApplicationInsights\": {{\r\n\t\t\"InstrumentationKey\": \"{model.InstrumentationKey}\",\r\n\t\t\"Settings\": {{\r\n\t\t\t\"EnableQuickPulseMetricStream\": \"{model.EnableQuickPulseMetricStream}\",\r\n\t\t\t\"EnableAdaptiveSampling\": \"{model.EnableAdaptiveSampling}\",\r\n\t\t\t\"EnableHeartbeat\": \"{model.EnableHeartbeat}\",\r\n\t\t\t\"AddAutoCollectedMetricExtractor\": \"{model.AddAutoCollectedMetricExtractor}\"\r\n\t\t}}\r\n\t}}\r\n}}";
 
             // Overwrite appsettings.json file with the new JSONs
-            System.IO.File.WriteAllText($"{GetConfigDirectory()}\\appsettings.json", appSettings);
+            System.IO.File.WriteAllText($"{ConfigHelper.GetConfigDirectory()}\\appsettings.json", appSettings);
 
             // Now clear settings cache
-            _settingService.ClearCache();
+            //_settingService.ClearCache();
 
             _notificationService.SuccessNotification(_localizationService.GetResource("Admin.Plugins.Saved"));
 
             return Configure();
         }
 
-        private string GetConfigDirectory()
-        {
-            string assemblyPath = System.Reflection.Assembly.GetAssembly(typeof(PluginStartup)).Location;
-            string pluginPath = Path.Combine(assemblyPath, @"..\..\Misc.ApplicationInsights");
-            return Path.GetFullPath(pluginPath);
-        }
+
 
         #endregion
     }

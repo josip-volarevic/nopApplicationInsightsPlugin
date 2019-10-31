@@ -19,6 +19,38 @@
                     </div>
                 </div>
                 <div class="form-group">
+                    <div class="col-md-3">
+                        <nop-label asp-for="EnableQuickPulseMetricStream" />
+                    </div>
+                    <div class="col-md-9">
+                        <input asp-for="EnableQuickPulseMetricStream">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <nop-label asp-for="EnableAdaptiveSampling" />
+                    </div>
+                    <div class="col-md-9">
+                        <input asp-for="EnableAdaptiveSampling">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <nop-label asp-for="EnableHeartbeat" />
+                    </div>
+                    <div class="col-md-9">
+                        <input asp-for="EnableHeartbeat">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <nop-label asp-for="AddAutoCollectedMetricExtractor" />
+                    </div>
+                    <div class="col-md-9">
+                        <input asp-for="AddAutoCollectedMetricExtractor">
+                    </div>
+                </div>
+                <div class="form-group">
                     <div class="col-md-9 col-md-offset-3">
                         <input type="submit" name="save" class="btn bg-primary" value="@T("Admin.Common.Save")" />
                     </div>
