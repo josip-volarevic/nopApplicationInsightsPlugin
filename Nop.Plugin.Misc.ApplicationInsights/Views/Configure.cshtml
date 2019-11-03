@@ -59,3 +59,49 @@
         </div>
     </div>
 </form>
+
+@functions
+{
+    public void GenerateCSException()
+    {
+        throw new System.InvalidOperationException("C# Exception generated!");
+    }
+
+    public void GenerateSQLException()
+    {
+        try
+        {
+            int y = 0;
+            int x = 100 / y;
+        }
+        catch (SqlException ex)
+        {
+            Console.WriteLine("SQL Error code: " + ex.ErrorCode);
+            Console.WriteLine("SQL Exception generated!");
+        }
+    }
+
+    public void GenerateBrowserException()
+    {
+        throw new NopException("Browser Exception generated!");
+    }
+}
+
+<h3>Generate an exception: </h3>
+<div class="row">
+    <form asp-page-handler="GenerateCSException" method="post">
+        <div class="col-lg-1">
+            <button class="btn btn-default">C#</button>
+        </div>
+    </form>
+    <form asp-page-handler="GenerateSQLException" method="post">
+        <div class="col-lg-1">
+            <button class="btn btn-default">SQL</button>
+        </div>
+    </form>
+    <form asp-page-handler="GenerateBrowserException" method="post">
+    <div class="col-lg-1">
+        <button class="btn btn-default">Browser</button>
+    </div>
+    </form>
+</div>

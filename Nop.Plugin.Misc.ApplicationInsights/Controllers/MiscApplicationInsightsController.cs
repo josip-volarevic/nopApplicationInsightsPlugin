@@ -80,8 +80,6 @@ namespace Nop.Plugin.Misc.ApplicationInsights.Controllers
             return Configure();
         }
 
-
-
         #endregion
     }
 }

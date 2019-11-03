@@ -4,6 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Nop.Plugin.Misc.ApplicationInsights.Helpers;
 using Nop.Core.Infrastructure;
 using System;
+using System.IO;
 
 namespace Nop.Plugin.Misc.ApplicationInsights.Infrastructure
 {
@@ -29,19 +30,20 @@ namespace Nop.Plugin.Misc.ApplicationInsights.Infrastructure
             bool enableHeartbeat = Convert.ToBoolean(config["ApplicationInsights:Settings:EnableHeartbeat"]);
             bool addAutoCollectedMetricExtractor = Convert.ToBoolean(config["ApplicationInsights:Settings:AddAutoCollectedMetricExtractor"]);
 
-            if (!string.IsNullOrEmpty(instrumentationKey))
-            {
-                services.AddApplicationInsightsTelemetry(instrumentationKey);
-            }
+            // Configures instrumentation key
+            aiOptions.InstrumentationKey = instrumentationKey;
 
-            //Disables/enables Application Insights features
+            // Disables or enables Application Insights features
             aiOptions.EnableQuickPulseMetricStream = enableQuickPulseMetricStream;
             aiOptions.EnableAdaptiveSampling = enableAdaptiveSampling;
             aiOptions.EnableHeartbeat = enableHeartbeat;
             aiOptions.AddAutoCollectedMetricExtractor = addAutoCollectedMetricExtractor;
 
-            // Set options
-            services.AddApplicationInsightsTelemetry(aiOptions);
+            if (!string.IsNullOrEmpty(aiOptions.InstrumentationKey))
+            {
+                // Set instrumentation key
+                services.AddApplicationInsightsTelemetry(aiOptions);
+            }
         }
 
         /// <summary>
@@ -56,6 +58,5 @@ namespace Nop.Plugin.Misc.ApplicationInsights.Infrastructure
         /// Gets order of this startup configuration implementation
         /// </summary>
         public int Order => 11;
-
     }
 }
