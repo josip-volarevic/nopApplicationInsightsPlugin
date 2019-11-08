@@ -60,7 +60,7 @@ namespace Nop.Plugin.Misc.ApplicationInsights
             _settingService.SaveSetting(new ApplicationInsightsSettings());
 
             //locales
-            _localizationService.AddOrUpdatePluginLocaleResource("Plugins.Misc.ApplicationInsights.Instructions", "<h3>Configuration:</h3><br/><p><ol><li>Sign in to the Microsoft Azure Portal</li><li>Create a new Application Insights resource</li><li>Navigate to your newly created resource: myResource -> overview</li><li>Copy the instrumentation key and paste it below</li><li><b>Restart the application in order to apply the new key and settings!</b></li></ol></p><br />");
+            _localizationService.AddOrUpdatePluginLocaleResource("Plugins.Misc.ApplicationInsights.Instructions", "<h4>Configuration:</h4><br/><p><ol><li>Sign in to the Microsoft Azure Portal</li><li>Create a new Application Insights resource</li><li>Navigate to your newly created resource: myResource -> overview</li><li>Copy the instrumentation key and paste it below</li><li><b>Restart the application in order to apply the new key and settings!</b></li></ol></p><br />");
             _localizationService.AddOrUpdatePluginLocaleResource("Plugins.Misc.ApplicationInsights.InstrumentationKey", "Instrumentation Key");
             _localizationService.AddOrUpdatePluginLocaleResource("Plugins.Misc.ApplicationInsights.InstrumentationKey.Hint", "Enter your Application Insights resources instrumentation key");
             _localizationService.AddOrUpdatePluginLocaleResource("Plugins.Misc.ApplicationInsights.EnableQuickPulseMetricStream", "Live Metrics Stream");
@@ -71,7 +71,9 @@ namespace Nop.Plugin.Misc.ApplicationInsights
             _localizationService.AddOrUpdatePluginLocaleResource("Plugins.Misc.ApplicationInsights.EnableHeartbeat.Hint", "Check the box whether you want to enable or disable Heartbeats feature");
             _localizationService.AddOrUpdatePluginLocaleResource("Plugins.Misc.ApplicationInsights.AddAutoCollectedMetricExtractor", "AutoCollectedMetrics extractor");
             _localizationService.AddOrUpdatePluginLocaleResource("Plugins.Misc.ApplicationInsights.AddAutoCollectedMetricExtractor.Hint", "Check the box whether you want to enable or disable reporting of unhandled Exception tracking by the Request collection module");
-
+            _localizationService.AddOrUpdatePluginLocaleResource("Plugins.Misc.ApplicationInsights.GenerateCsException", "C#");
+            _localizationService.AddOrUpdatePluginLocaleResource("Plugins.Misc.ApplicationInsights.GenerateSqlException", "SQL");
+            _localizationService.AddOrUpdatePluginLocaleResource("Plugins.Misc.ApplicationInsights.GenerateBrowserException", "Browser");
             base.Install();
         }
 
@@ -95,6 +97,10 @@ namespace Nop.Plugin.Misc.ApplicationInsights
             _localizationService.DeletePluginLocaleResource("Plugins.Misc.ApplicationInsights.EnableHeartbeat.Hint");
             _localizationService.DeletePluginLocaleResource("Plugins.Misc.ApplicationInsights.AddAutoCollectedMetricExtractor");
             _localizationService.DeletePluginLocaleResource("Plugins.Misc.ApplicationInsights.AddAutoCollectedMetricExtractor.Hint");
+            _localizationService.DeletePluginLocaleResource("Plugins.Misc.ApplicationInsights.GenerateCsException");
+            _localizationService.DeletePluginLocaleResource("Plugins.Misc.ApplicationInsights.GenerateSqlException");
+            _localizationService.DeletePluginLocaleResource("Plugins.Misc.ApplicationInsights.GenerateBrowserException");
+
 
             base.Uninstall();
         }

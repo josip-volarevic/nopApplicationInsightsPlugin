@@ -1,8 +1,11 @@
-﻿@model Nop.Plugin.Misc.ApplicationInsights.Models.ConfigurationModel
+﻿@inject Microsoft.ApplicationInsights.AspNetCore.JavaScriptSnippet JavaScriptSnippet
+@Html.Raw(JavaScriptSnippet.FullScript)
+
+@model Nop.Plugin.Misc.ApplicationInsights.Models.ConfigurationModel
 @{
     Layout = "_ConfigurePlugin";
 }
-@inject Nop.Core.IWebHelper webHelper
+
 
 <form asp-controller="MiscApplicationInsights" asp-action="Configure" method="post">
     <div class="panel-group">
@@ -60,48 +63,32 @@
     </div>
 </form>
 
-@functions
-{
-    public void GenerateCSException()
-    {
-        throw new System.InvalidOperationException("C# Exception generated!");
-    }
-
-    public void GenerateSQLException()
-    {
-        try
-        {
-            int y = 0;
-            int x = 100 / y;
-        }
-        catch (SqlException ex)
-        {
-            Console.WriteLine("SQL Error code: " + ex.ErrorCode);
-            Console.WriteLine("SQL Exception generated!");
-        }
-    }
-
-    public void GenerateBrowserException()
-    {
-        throw new NopException("Browser Exception generated!");
-    }
-}
-
-<h3>Generate an exception: </h3>
-<div class="row">
-    <form asp-page-handler="GenerateCSException" method="post">
-        <div class="col-lg-1">
-            <button class="btn btn-default">C#</button>
+<div class="panel-group">
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <h4>Playground:</h4><br />
+            <p>Generate an exception: </p>
+            <div class="col-md-1">
+                @using (Html.BeginForm("GenerateCsException", "MiscApplicationInsights", FormMethod.Post))
+                {
+                    <input type="submit" class="btn bg-primary" value="@T("Plugins.Misc.ApplicationInsights.GenerateCsException")" />
+                }
+            </div>
+            <div class="col-md-1">
+                @using (Html.BeginForm("GenerateSqlException", "MiscApplicationInsights", FormMethod.Post))
+                {
+                    <input type="submit" class="btn bg-primary" value="@T("Plugins.Misc.ApplicationInsights.GenerateSqlException")" />
+                }
+            </div>
+            <div class="col-md-1">
+                <button class="btn bg-primary" onclick="generateBrowserException()">@T("Plugins.Misc.ApplicationInsights.GenerateBrowserException")</button>
+            </div>
         </div>
-    </form>
-    <form asp-page-handler="GenerateSQLException" method="post">
-        <div class="col-lg-1">
-            <button class="btn btn-default">SQL</button>
-        </div>
-    </form>
-    <form asp-page-handler="GenerateBrowserException" method="post">
-    <div class="col-lg-1">
-        <button class="btn btn-default">Browser</button>
     </div>
-    </form>
 </div>
+
+<script>
+    function generateBrowserException() {
+        throw new DOMException("▄︻̷̿┻̿═━一  -  -  -  -    \nPEW PEW! Browser Exception fired!");
+    }
+</script>

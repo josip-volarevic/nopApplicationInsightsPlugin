@@ -8,6 +8,8 @@ using Nop.Plugin.Misc.ApplicationInsights.Models;
 using Nop.Plugin.Misc.ApplicationInsights.Helpers;
 using Nop.Services.Messages;
 using System;
+using System.Data.SqlClient;
+using Nop.Core;
 
 namespace Nop.Plugin.Misc.ApplicationInsights.Controllers
 {
@@ -79,6 +81,33 @@ namespace Nop.Plugin.Misc.ApplicationInsights.Controllers
 
             return Configure();
         }
+
+        [HttpPost]
+        [AuthorizeAdmin]
+        [Area(AreaNames.Admin)]
+        public void GenerateCsException()
+        {
+            throw new Exception("Abrakadabra (つ◕౪◕)つ━☆ﾟ.*･｡ﾟ C# Exception generated!");
+        }
+
+        [HttpPost]
+        [AuthorizeAdmin]
+        [Area(AreaNames.Admin)]
+        public void GenerateSqlException()
+        {
+            //TODO: 
+            try
+            {
+                int y = 0;
+                int x = 100 / y;
+            }
+            catch (SqlException ex)
+            {
+                Console.WriteLine("SQL Error code: " + ex.ErrorCode);
+                Console.WriteLine("You have entered the SQL neighbourhood boy! Watch out for dem crazy Exceptions (つ◉益◉)つ");
+            }
+        }
+
 
         #endregion
     }
