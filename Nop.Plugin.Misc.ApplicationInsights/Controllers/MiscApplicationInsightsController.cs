@@ -10,6 +10,9 @@ using Nop.Services.Messages;
 using System;
 using System.Data.SqlClient;
 using Nop.Core;
+using Microsoft.ApplicationInsights;
+using System.Text;
+using Nop.Core.Data;
 
 namespace Nop.Plugin.Misc.ApplicationInsights.Controllers
 {
@@ -85,27 +88,51 @@ namespace Nop.Plugin.Misc.ApplicationInsights.Controllers
         [HttpPost]
         [AuthorizeAdmin]
         [Area(AreaNames.Admin)]
-        public void GenerateCsException()
+        [Obsolete]
+        public ActionResult GenerateCsException()
         {
-            throw new Exception("Abrakadabra (つ◕౪◕)つ━☆ﾟ.*･｡ﾟ C# Exception generated!");
+            var telemetry = new TelemetryClient();
+            try
+            {
+                throw new Exception("Abrakadabra (つ◕౪◕)つ━☆ﾟ.*･｡ﾟ C# Exception generated!");
+            }
+            catch (Exception ex)
+            {
+                telemetry.TrackException(ex);
+                return new RedirectResult("~/Admin/MiscApplicationInsights/Configure");
+            }
         }
 
         [HttpPost]
         [AuthorizeAdmin]
         [Area(AreaNames.Admin)]
-        public void GenerateSqlException()
+        [Obsolete]
+        public ActionResult GenerateSqlException()
         {
-            //TODO: 
-            try
+            var dataSettings = DataSettingsManager.LoadSettings();
+            string connectionString = dataSettings.DataConnectionString;
+
+            var telemetry = new TelemetryClient();
+
+            string queryString = "EXECUTE NonExistantStoredProcedure";
+            using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                int y = 0;
-                int x = 100 / y;
+                SqlCommand command = new SqlCommand(queryString, connection);
+                try
+                {
+                    command.Connection.Open();
+                    command.ExecuteNonQuery();
+                }
+                catch (SqlException ex)
+                {
+                    telemetry.TrackException(ex);
+                    Console.WriteLine("You have entered the SQL neighbourhood boy! Watch out for dem craaazy Exceptions (つ◉益◉)つ");
+
+                    return new RedirectResult("~/Admin/MiscApplicationInsights/Configure");
+                }
             }
-            catch (SqlException ex)
-            {
-                Console.WriteLine("SQL Error code: " + ex.ErrorCode);
-                Console.WriteLine("You have entered the SQL neighbourhood boy! Watch out for dem crazy Exceptions (つ◉益◉)つ");
-            }
+            return new RedirectResult("~/Admin/MiscApplicationInsights/Configure");
+
         }
 
 

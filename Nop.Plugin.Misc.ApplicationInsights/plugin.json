@@ -2,7 +2,7 @@
   "Group": "Misc",
   "FriendlyName": "Azure Application Insights",
   "SystemName": "Misc.ApplicationInsights",
-  "Version": "0.9",
+  "Version": "1.0",
   "SupportedVersions": [ "4.20" ],
   "Author": "NET Media Sistemi d.o.o.",
   "DisplayOrder": 1,

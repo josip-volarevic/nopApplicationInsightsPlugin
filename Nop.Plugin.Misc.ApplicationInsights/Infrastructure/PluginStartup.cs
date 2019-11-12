@@ -39,11 +39,12 @@ namespace Nop.Plugin.Misc.ApplicationInsights.Infrastructure
             aiOptions.EnableHeartbeat = enableHeartbeat;
             aiOptions.AddAutoCollectedMetricExtractor = addAutoCollectedMetricExtractor;
 
-            if (!string.IsNullOrEmpty(aiOptions.InstrumentationKey))
+            if (string.IsNullOrEmpty(aiOptions.InstrumentationKey))
             {
-                // Set instrumentation key
-                services.AddApplicationInsightsTelemetry(aiOptions);
+                // Make sure InsutrmentationKey is not empty
+                aiOptions.InstrumentationKey = "11111111-2222-3333-4444-555555555555";
             }
+            services.AddApplicationInsightsTelemetry(aiOptions);
         }
 
         /// <summary>

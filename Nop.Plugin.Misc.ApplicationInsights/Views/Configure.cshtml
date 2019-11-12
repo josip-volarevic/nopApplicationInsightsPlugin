@@ -1,6 +1,4 @@
-﻿@inject Microsoft.ApplicationInsights.AspNetCore.JavaScriptSnippet JavaScriptSnippet
-@Html.Raw(JavaScriptSnippet.FullScript)
-
+﻿@Html.Raw(JavaScriptSnippet.FullScript)
 @model Nop.Plugin.Misc.ApplicationInsights.Models.ConfigurationModel
 @{
     Layout = "_ConfigurePlugin";
@@ -89,6 +87,13 @@
 
 <script>
     function generateBrowserException() {
-        throw new DOMException("▄︻̷̿┻̿═━一  -  -  -  -    \nPEW PEW! Browser Exception fired!");
+        try
+        { 
+            throw new DOMException("▄︻̷̿┻̿═━一  -  -  -  -    \nPEW PEW! Browser Exception fired!");
+        }
+        catch (ex)
+        {
+            appInsights.trackException(ex);
+        }
     }
 </script>
