@@ -6,80 +6,84 @@
 
 
 <form asp-controller="MiscApplicationInsights" asp-action="Configure" method="post">
-    <div class="panel-group">
-        <div class="panel panel-default">
-            <div class="panel-body">
-                @T("Plugins.Misc.ApplicationInsights.Instructions")
-                <div class="form-group">
-                    <div class="col-md-3">
-                        <nop-label asp-for="InstrumentationKey" />
+    <section class="content">
+        <div class="container-fluid">
+            <div class="card card-default">
+                <div class="card-body">
+                    @T("Plugins.Misc.ApplicationInsights.Instructions")
+                    <div class="form-group row">
+                        <div class="col-md-3">
+                            <nop-label asp-for="InstrumentationKey" />
+                        </div>
+                        <div class="col-md-9">
+                            <nop-editor asp-for="InstrumentationKey" />
+                            <span asp-validation-for="InstrumentationKey"></span>
+                        </div>
                     </div>
-                    <div class="col-md-9">
-                        <nop-editor asp-for="InstrumentationKey" />
-                        <span asp-validation-for="InstrumentationKey"></span>
+                    <div class="form-group row">
+                        <div class="col-md-3">
+                            <nop-label asp-for="EnableQuickPulseMetricStream" />
+                        </div>
+                        <div class="col-md-9">
+                            <input asp-for="EnableQuickPulseMetricStream">
+                        </div>
                     </div>
-                </div>
-                <div class="form-group">
-                    <div class="col-md-3">
-                        <nop-label asp-for="EnableQuickPulseMetricStream" />
+                    <div class="form-group row">
+                        <div class="col-md-3">
+                            <nop-label asp-for="EnableAdaptiveSampling" />
+                        </div>
+                        <div class="col-md-9">
+                            <input asp-for="EnableAdaptiveSampling">
+                        </div>
                     </div>
-                    <div class="col-md-9">
-                        <input asp-for="EnableQuickPulseMetricStream">
+                    <div class="form-group row">
+                        <div class="col-md-3">
+                            <nop-label asp-for="EnableHeartbeat" />
+                        </div>
+                        <div class="col-md-9">
+                            <input asp-for="EnableHeartbeat">
+                        </div>
                     </div>
-                </div>
-                <div class="form-group">
-                    <div class="col-md-3">
-                        <nop-label asp-for="EnableAdaptiveSampling" />
+                    <div class="form-group row">
+                        <div class="col-md-3">
+                            <nop-label asp-for="AddAutoCollectedMetricExtractor" />
+                        </div>
+                        <div class="col-md-9">
+                            <input asp-for="AddAutoCollectedMetricExtractor">
+                        </div>
                     </div>
-                    <div class="col-md-9">
-                        <input asp-for="EnableAdaptiveSampling">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="col-md-3">
-                        <nop-label asp-for="EnableHeartbeat" />
-                    </div>
-                    <div class="col-md-9">
-                        <input asp-for="EnableHeartbeat">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="col-md-3">
-                        <nop-label asp-for="AddAutoCollectedMetricExtractor" />
-                    </div>
-                    <div class="col-md-9">
-                        <input asp-for="AddAutoCollectedMetricExtractor">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="col-md-9 col-md-offset-3">
-                        <input type="submit" name="save" class="btn bg-primary" value="@T("Admin.Common.Save")" />
+                    <div class="form-group row">
+                        <div class="col-md-9 col-md-offset-3">
+                            <input type="submit" name="save" class="btn bg-primary" value="@T("Admin.Common.Save")" />
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
+    </section>
 </form>
 
-<div class="panel-group">
-    <div class="panel panel-default">
-        <div class="panel-body">
+<div class="container-fluid">
+    <div class="card card-default">
+        <div class="card-body">
             <h4>Playground:</h4><br />
             <p>Generate an exception: </p>
-            <div class="col-md-1">
-                @using (Html.BeginForm("GenerateCsException", "MiscApplicationInsights", FormMethod.Post))
-                {
-                    <input type="submit" class="btn bg-primary" value="@T("Plugins.Misc.ApplicationInsights.GenerateCsException")" />
-                }
-            </div>
-            <div class="col-md-1">
-                @using (Html.BeginForm("GenerateSqlException", "MiscApplicationInsights", FormMethod.Post))
-                {
-                    <input type="submit" class="btn bg-primary" value="@T("Plugins.Misc.ApplicationInsights.GenerateSqlException")" />
-                }
-            </div>
-            <div class="col-md-1">
-                <button class="btn bg-primary" onclick="generateBrowserException()">@T("Plugins.Misc.ApplicationInsights.GenerateBrowserException")</button>
+            <div class="form-group row">
+                <div class="col-md-1">
+                    @using (Html.BeginForm("GenerateCsException", "MiscApplicationInsights", FormMethod.Post))
+                    {
+                        <input type="submit" class="btn bg-primary" value="@T("Plugins.Misc.ApplicationInsights.GenerateCsException")" />
+                    }
+                </div>
+                <div class="col-md-1">
+                    @using (Html.BeginForm("GenerateSqlException", "MiscApplicationInsights", FormMethod.Post))
+                    {
+                        <input type="submit" class="btn bg-primary" value="@T("Plugins.Misc.ApplicationInsights.GenerateSqlException")" />
+                    }
+                </div>
+                <div class="col-md-1">
+                    <button class="btn bg-primary" onclick="generateBrowserException()">@T("Plugins.Misc.ApplicationInsights.GenerateBrowserException")</button>
+                </div>
             </div>
         </div>
     </div>
@@ -87,12 +91,10 @@
 
 <script>
     function generateBrowserException() {
-        try
-        { 
+        try {
             throw new DOMException("▄︻̷̿┻̿═━一  -  -  -  -    \nPEW PEW! Browser Exception fired!");
         }
-        catch (ex)
-        {
+        catch (ex) {
             appInsights.trackException(ex);
         }
     }

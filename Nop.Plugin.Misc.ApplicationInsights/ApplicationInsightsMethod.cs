@@ -3,6 +3,7 @@ using Nop.Services.Plugins;
 using Nop.Services.Common;
 using Nop.Services.Configuration;
 using Nop.Services.Localization;
+using System.Threading.Tasks;
 
 namespace Nop.Plugin.Misc.ApplicationInsights
 {
@@ -54,55 +55,55 @@ namespace Nop.Plugin.Misc.ApplicationInsights
         /// <summary>
         /// Install the plugin
         /// </summary>
-        public override void Install()
+        public override async Task InstallAsync()
         {
             //settings
-            _settingService.SaveSetting(new ApplicationInsightsSettings());
+            await _settingService.SaveSettingAsync(new ApplicationInsightsSettings());
 
             //locales
-            _localizationService.AddOrUpdatePluginLocaleResource("Plugins.Misc.ApplicationInsights.Instructions", "<h4>Configuration:</h4><br/><p><ol><li>Sign in to the Microsoft Azure Portal</li><li>Create a new Application Insights resource</li><li>Navigate to your newly created resource: myResource -> overview</li><li>Copy the instrumentation key and paste it below</li><li><b>Restart the application in order to apply the new key and settings!</b></li></ol></p><br />");
-            _localizationService.AddOrUpdatePluginLocaleResource("Plugins.Misc.ApplicationInsights.InstrumentationKey", "Instrumentation Key");
-            _localizationService.AddOrUpdatePluginLocaleResource("Plugins.Misc.ApplicationInsights.InstrumentationKey.Hint", "Enter your Application Insights resources instrumentation key");
-            _localizationService.AddOrUpdatePluginLocaleResource("Plugins.Misc.ApplicationInsights.EnableQuickPulseMetricStream", "Live Metrics Stream");
-            _localizationService.AddOrUpdatePluginLocaleResource("Plugins.Misc.ApplicationInsights.EnableQuickPulseMetricStream.Hint", "Check the box whether you want to enable or disable Live Metrics Stream feature");
-            _localizationService.AddOrUpdatePluginLocaleResource("Plugins.Misc.ApplicationInsights.EnableAdaptiveSampling", "Adaptive Sampling");
-            _localizationService.AddOrUpdatePluginLocaleResource("Plugins.Misc.ApplicationInsights.EnableAdaptiveSampling.Hint", "Check the box whether you want to enable or disable Adaptive Sampling feature");
-            _localizationService.AddOrUpdatePluginLocaleResource("Plugins.Misc.ApplicationInsights.EnableHeartbeat", "Heartbeat");
-            _localizationService.AddOrUpdatePluginLocaleResource("Plugins.Misc.ApplicationInsights.EnableHeartbeat.Hint", "Check the box whether you want to enable or disable Heartbeats feature");
-            _localizationService.AddOrUpdatePluginLocaleResource("Plugins.Misc.ApplicationInsights.AddAutoCollectedMetricExtractor", "AutoCollectedMetrics extractor");
-            _localizationService.AddOrUpdatePluginLocaleResource("Plugins.Misc.ApplicationInsights.AddAutoCollectedMetricExtractor.Hint", "Check the box whether you want to enable or disable reporting of unhandled Exception tracking by the Request collection module");
-            _localizationService.AddOrUpdatePluginLocaleResource("Plugins.Misc.ApplicationInsights.GenerateCsException", "C#");
-            _localizationService.AddOrUpdatePluginLocaleResource("Plugins.Misc.ApplicationInsights.GenerateSqlException", "SQL");
-            _localizationService.AddOrUpdatePluginLocaleResource("Plugins.Misc.ApplicationInsights.GenerateBrowserException", "Browser");
-            base.Install();
+            await _localizationService.AddOrUpdateLocaleResourceAsync("Plugins.Misc.ApplicationInsights.Instructions", "<h4>Configuration:</h4><br/><p><ol><li>Sign in to the Microsoft Azure Portal</li><li>Create a new Application Insights resource</li><li>Navigate to your newly created resource: myResource -> overview</li><li>Copy the instrumentation key and paste it below</li><li><b>Restart the application in order to apply the new key and settings!</b></li></ol></p><br />");
+            await _localizationService.AddOrUpdateLocaleResourceAsync("Plugins.Misc.ApplicationInsights.InstrumentationKey", "Instrumentation Key");
+            await _localizationService.AddOrUpdateLocaleResourceAsync("Plugins.Misc.ApplicationInsights.InstrumentationKey.Hint", "Enter your Application Insights resources instrumentation key");
+            await _localizationService.AddOrUpdateLocaleResourceAsync("Plugins.Misc.ApplicationInsights.EnableQuickPulseMetricStream", "Live Metrics Stream");
+            await _localizationService.AddOrUpdateLocaleResourceAsync("Plugins.Misc.ApplicationInsights.EnableQuickPulseMetricStream.Hint", "Check the box whether you want to enable or disable Live Metrics Stream feature");
+            await _localizationService.AddOrUpdateLocaleResourceAsync("Plugins.Misc.ApplicationInsights.EnableAdaptiveSampling", "Adaptive Sampling");
+            await _localizationService.AddOrUpdateLocaleResourceAsync("Plugins.Misc.ApplicationInsights.EnableAdaptiveSampling.Hint", "Check the box whether you want to enable or disable Adaptive Sampling feature");
+            await _localizationService.AddOrUpdateLocaleResourceAsync("Plugins.Misc.ApplicationInsights.EnableHeartbeat", "Heartbeat");
+            await _localizationService.AddOrUpdateLocaleResourceAsync("Plugins.Misc.ApplicationInsights.EnableHeartbeat.Hint", "Check the box whether you want to enable or disable Heartbeats feature");
+            await _localizationService.AddOrUpdateLocaleResourceAsync("Plugins.Misc.ApplicationInsights.AddAutoCollectedMetricExtractor", "AutoCollectedMetrics extractor");
+            await _localizationService.AddOrUpdateLocaleResourceAsync("Plugins.Misc.ApplicationInsights.AddAutoCollectedMetricExtractor.Hint", "Check the box whether you want to enable or disable reporting of unhandled Exception tracking by the Request collection module");
+            await _localizationService.AddOrUpdateLocaleResourceAsync("Plugins.Misc.ApplicationInsights.GenerateCsException", "C#");
+            await _localizationService.AddOrUpdateLocaleResourceAsync("Plugins.Misc.ApplicationInsights.GenerateSqlException", "SQL");
+            await _localizationService.AddOrUpdateLocaleResourceAsync("Plugins.Misc.ApplicationInsights.GenerateBrowserException", "Browser");
+            await base.InstallAsync();
         }
 
         /// <summary>
         /// Uninstall the plugin
         /// </summary>
-        public override void Uninstall()
+        public override async Task UninstallAsync()
         {
             //settings
-            _settingService.DeleteSetting<ApplicationInsightsSettings>();
+            await _settingService.DeleteSettingAsync<ApplicationInsightsSettings>();
 
             //locales
-            _localizationService.DeletePluginLocaleResource("Plugins.Misc.ApplicationInsights.Instructions");
-            _localizationService.DeletePluginLocaleResource("Plugins.Misc.ApplicationInsights.InstrumentationKey");
-            _localizationService.DeletePluginLocaleResource("Plugins.Misc.ApplicationInsights.InstrumentationKey.Hint");
-            _localizationService.DeletePluginLocaleResource("Plugins.Misc.ApplicationInsights.EnableQuickPulseMetricStream");
-            _localizationService.DeletePluginLocaleResource("Plugins.Misc.ApplicationInsights.EnableQuickPulseMetricStream.Hint");
-            _localizationService.DeletePluginLocaleResource("Plugins.Misc.ApplicationInsights.EnableAdaptiveSampling");
-            _localizationService.DeletePluginLocaleResource("Plugins.Misc.ApplicationInsights.EnableAdaptiveSampling.Hint");
-            _localizationService.DeletePluginLocaleResource("Plugins.Misc.ApplicationInsights.EnableHeartbeat");
-            _localizationService.DeletePluginLocaleResource("Plugins.Misc.ApplicationInsights.EnableHeartbeat.Hint");
-            _localizationService.DeletePluginLocaleResource("Plugins.Misc.ApplicationInsights.AddAutoCollectedMetricExtractor");
-            _localizationService.DeletePluginLocaleResource("Plugins.Misc.ApplicationInsights.AddAutoCollectedMetricExtractor.Hint");
-            _localizationService.DeletePluginLocaleResource("Plugins.Misc.ApplicationInsights.GenerateCsException");
-            _localizationService.DeletePluginLocaleResource("Plugins.Misc.ApplicationInsights.GenerateSqlException");
-            _localizationService.DeletePluginLocaleResource("Plugins.Misc.ApplicationInsights.GenerateBrowserException");
+            await _localizationService.DeleteLocaleResourceAsync("Plugins.Misc.ApplicationInsights.Instructions");
+            await _localizationService.DeleteLocaleResourceAsync("Plugins.Misc.ApplicationInsights.InstrumentationKey");
+            await _localizationService.DeleteLocaleResourceAsync("Plugins.Misc.ApplicationInsights.InstrumentationKey.Hint");
+            await _localizationService.DeleteLocaleResourceAsync("Plugins.Misc.ApplicationInsights.EnableQuickPulseMetricStream");
+            await _localizationService.DeleteLocaleResourceAsync("Plugins.Misc.ApplicationInsights.EnableQuickPulseMetricStream.Hint");
+            await _localizationService.DeleteLocaleResourceAsync("Plugins.Misc.ApplicationInsights.EnableAdaptiveSampling");
+            await _localizationService.DeleteLocaleResourceAsync("Plugins.Misc.ApplicationInsights.EnableAdaptiveSampling.Hint");
+            await _localizationService.DeleteLocaleResourceAsync("Plugins.Misc.ApplicationInsights.EnableHeartbeat");
+            await _localizationService.DeleteLocaleResourceAsync("Plugins.Misc.ApplicationInsights.EnableHeartbeat.Hint");
+            await _localizationService.DeleteLocaleResourceAsync("Plugins.Misc.ApplicationInsights.AddAutoCollectedMetricExtractor");
+            await _localizationService.DeleteLocaleResourceAsync("Plugins.Misc.ApplicationInsights.AddAutoCollectedMetricExtractor.Hint");
+            await _localizationService.DeleteLocaleResourceAsync("Plugins.Misc.ApplicationInsights.GenerateCsException");
+            await _localizationService.DeleteLocaleResourceAsync("Plugins.Misc.ApplicationInsights.GenerateSqlException");
+            await _localizationService.DeleteLocaleResourceAsync("Plugins.Misc.ApplicationInsights.GenerateBrowserException");
 
 
-            base.Uninstall();
+            await base.UninstallAsync();
         }
 
         #endregion

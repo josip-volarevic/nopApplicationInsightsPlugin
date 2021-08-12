@@ -3,7 +3,7 @@
   "FriendlyName": "Azure Application Insights",
   "SystemName": "Misc.ApplicationInsights",
   "Version": "1.0",
-  "SupportedVersions": [ "4.20" ],
+  "SupportedVersions": [ "4.40" ],
   "Author": "NET Media Sistemi d.o.o.",
   "DisplayOrder": 1,
   "FileName": "Nop.Plugin.Misc.ApplicationInsights.dll",
