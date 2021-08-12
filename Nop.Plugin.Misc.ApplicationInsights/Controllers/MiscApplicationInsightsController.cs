@@ -9,10 +9,9 @@ using Nop.Plugin.Misc.ApplicationInsights.Helpers;
 using Nop.Services.Messages;
 using System;
 using System.Data.SqlClient;
-using Nop.Core;
 using Microsoft.ApplicationInsights;
-using System.Text;
-using Nop.Core.Data;
+using System.Threading.Tasks;
+using Nop.Data;
 
 namespace Nop.Plugin.Misc.ApplicationInsights.Controllers
 {
@@ -66,10 +65,10 @@ namespace Nop.Plugin.Misc.ApplicationInsights.Controllers
         }
 
         [HttpPost]
-        [AdminAntiForgery]
+        [AutoValidateAntiforgeryToken]
         [AuthorizeAdmin]
         [Area(AreaNames.Admin)]
-        public IActionResult Configure(ConfigurationModel model)
+        public async Task<IActionResult> Configure(ConfigurationModel model)
         {
             // String that represents the new JSON with updated Application Insights values from the model
             string appSettings = $"{{\r\n\t\"ApplicationInsights\": {{\r\n\t\t\"InstrumentationKey\": \"{model.InstrumentationKey}\",\r\n\t\t\"Settings\": {{\r\n\t\t\t\"EnableQuickPulseMetricStream\": \"{model.EnableQuickPulseMetricStream}\",\r\n\t\t\t\"EnableAdaptiveSampling\": \"{model.EnableAdaptiveSampling}\",\r\n\t\t\t\"EnableHeartbeat\": \"{model.EnableHeartbeat}\",\r\n\t\t\t\"AddAutoCollectedMetricExtractor\": \"{model.AddAutoCollectedMetricExtractor}\"\r\n\t\t}}\r\n\t}}\r\n}}";
@@ -80,7 +79,7 @@ namespace Nop.Plugin.Misc.ApplicationInsights.Controllers
             // Now clear settings cache
             //_settingService.ClearCache();
 
-            _notificationService.SuccessNotification(_localizationService.GetResource("Admin.Plugins.Saved"));
+            _notificationService.SuccessNotification(await _localizationService.GetResourceAsync("Admin.Plugins.Saved"));
 
             return Configure();
         }
@@ -110,7 +109,7 @@ namespace Nop.Plugin.Misc.ApplicationInsights.Controllers
         public ActionResult GenerateSqlException()
         {
             var dataSettings = DataSettingsManager.LoadSettings();
-            string connectionString = dataSettings.DataConnectionString;
+            string connectionString = dataSettings.ConnectionString;
 
             var telemetry = new TelemetryClient();
 

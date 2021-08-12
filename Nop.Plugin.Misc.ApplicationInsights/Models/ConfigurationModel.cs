@@ -3,7 +3,7 @@ using Nop.Web.Framework.Models;
 
 namespace Nop.Plugin.Misc.ApplicationInsights.Models
 {
-    public class ConfigurationModel : BaseNopModel
+    public record ConfigurationModel : BaseNopModel
     {
         [NopResourceDisplayName("Plugins.Misc.ApplicationInsights.InstrumentationKey")]
         public string InstrumentationKey { get; set; }
