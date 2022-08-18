@@ -1,4 +1,4 @@
-# Welcome to nopApplicationInsightsPlugin :wave:
+# Welcome to temp :wave:
 ![Version](https://img.shields.io/badge/version-1.0-blue.svg?cacheSeconds=2592000) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/Volki312/ApplicationInsightsPlugin#license)
 
 > Plugin that integrates Azure Application Insights server-side telemetry into your nopCommerce 4.20 web shop.
